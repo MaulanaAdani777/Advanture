@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Julis Adventure - Outbound & Team Building</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+        :root {
+            --bg-color: #f8fafc;
+            --surface-color: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --primary: #166534; 
+            --primary-hover: #14532d;
+            --accent: #ea580c; 
+            --border: #e2e8f0;
+            --shadow: 0 10px 30px -10px rgba(0,0,0,0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #0f172a;
+            --surface-color: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --primary: #22c55e; 
+            --primary-hover: #16a34a;
+            --accent: #f97316;
+            --border: #334155;
+            --shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Navbar & Navigation */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background-color: rgba(var(--surface-color), 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-placeholder {
+            width: 45px;
+            height: 45px;
+            background-color: var(--border);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.6rem;
+            color: var(--text-secondary);
+            text-align: center;
+            overflow: hidden;
+            border: 2px dashed var(--primary);
+        }
+
+        .logo-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-text span {
+            color: var(--primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-links button {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+
+        .nav-links button.active, .nav-links button:hover {
+            color: var(--primary);
+            background-color: rgba(22, 101, 52, 0.1);
+        }
+
+        .theme-toggle {
+            background: var(--surface-color);
+            border: 1px solid var(--border);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            color: var(--text-primary);
+            box-shadow: var(--shadow);
+        }
+
+        /* Page Content */
+        .page-content {
+            display: none;
+            padding: 3rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .page-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1, h2, h3 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        /* Slider Styles */
+        .slider-container {
+            width: 100%;
+            height: 450px;
+            margin-bottom: 3rem;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .slides {
+            display: flex;
+            width: 300%; /* 300% karena ada 3 gambar */
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .slide {
+            width: 33.3333%; /* 100% dibagi 3 */
+            height: 100%;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background-color: var(--surface-color);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        ul.styled-list {
+            list-style-type: none;
+            margin-bottom: 1.5rem;
+        }
+
+        ul.styled-list li {
+            padding-left: 1.5rem;
+            position: relative;
+            margin-bottom: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        ul.styled-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* Tabel Desain Elegan */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background-color: var(--surface-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Form */
+        .btn {
+            padding: 1rem 2.5rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(22, 101, 52, 0.4);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            outline: none;
+        }
+
+        /* Chatbot */
+        .chatbot-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, var(--primary), #059669);
+            color: white;
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.8rem;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(22, 101, 52, 0.4);
+            z-index: 1000;
+            border: none;
+        }
+
+        .chatbot-window {
+            position: fixed;
+            bottom: 110px;
+            right: 30px;
+            width: 350px;
+            height: 480px;
+            background-color: var(--surface-color);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            transform: scale(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+        }
+
+        .chatbot-window.active {
+            transform: scale(1);
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, var(--primary), #059669);
+            color: white;
+            padding: 1.2rem;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .chat-header span { cursor: pointer; }
+        
+        .chat-body {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background-color: var(--bg-color);
+        }
+
+        .chat-msg {
+            padding: 0.8rem 1.2rem;
+            border-radius: 15px;
+            font-size: 0.95rem;
+            max-width: 85%;
+        }
+
+        .chat-bot {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border);
+            align-self: flex-start;
+        }
+
+        .chat-user {
+            background-color: var(--primary);
+            color: white;
+            align-self: flex-end;
+        }
+
+        .chat-footer {
+            padding: 1rem;
+            display: flex;
+            gap: 10px;
+            background-color: var(--surface-color);
+            border-top: 1px solid var(--border);
+        }
+
+        .chat-footer input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+        }
+
+        .chat-footer button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        
+        /* Responsive Slider */
+        @media (max-width: 768px) {
+            .slider-container { height: 250px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand-container">
+            <!-- TEMPAT LOGO: Masukkan link logo di atribut src="" -->
+            <div class="logo-placeholder">
+                <img src="Logolog.jpg"onerror="this.style.display='none'; this.parentNode.innerHTML='LOGO';">
+            </div>
+            <div class="logo-text">JULIS <span>ADVENTURE</span></div>
+        </div>
+        <div class="nav-actions">
+            <!-- Navigasi Tab -->
+            <div class="nav-links">
+                <button class="nav-btn active" data-target="beranda">Beranda</button>
+                <button class="nav-btn" data-target="program">Analisis & Program</button>
+                <button class="nav-btn" data-target="jadwal">Jadwal & Biaya</button>
+                <button class="nav-btn" data-target="reservasi">Reservasi</button>
+            </div>
+            <button class="theme-toggle" id="theme-btn">🌙</button>
+        </div>
+    </header>
+
+    <main>
+        <!-- HALAMAN 1: BERANDA -->
+        <section id="beranda" class="page-content active">
+            <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1.5rem; text-align: center;">Transformasi Tim di <br><span style="color: var(--accent)">Wisata Nglimut</span></h1>
+            
+            <!-- TEMPAT FOTO BERGESER (SLIDER) -->
+            <div class="slider-container">
+                <div class="slides" id="auto-slider">
+                    <!-- Foto 1 (Ganti URL di bagian src="...") -->
+                    <div class="slide">
+                        <img src="images (5).jpg" alt="Outbound Alam">
+                    </div>
+                    <!-- Foto 2 (Ganti URL di bagian src="...") -->
+                    <div class="slide">
+                        <img src="images (6).jpg" alt="Team Building">
+                    </div>
+                    <!-- Foto 3 (Ganti URL di bagian src="...") -->
+                    <div class="slide">
+                        <img src="images (7).jpg" alt="Hutan Pinus">
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Deskripsi Singkat Lokasi</h2>
+                <p>Nglimut adalah kawasan wisata alam di Desa Gonoharjo, Kecamatan Limbangan, Kabupaten Kendal, Jawa Tengah. Kawasan ini berada di lereng Gunung Ungaran, sehingga udaranya sejuk dan pemandangannya hijau. Promasan Greenland Nglimut berada di ketinggian sekitar 700 meter di atas permukaan laut dan berjarak sekitar 30 km dari Kota Semarang. Dari Semarang kita hanya butuh sekitar 1 sampai 1,5 jam perjalanan darat.</p>
+                
+                <h3>Fasilitas & Daya Tarik Kawasan</h3>
+                <ul class="styled-list">
+                    <li>Wahana Wisata Sumber Air Panas dan Air Terjun Gonoharjo yang sudah dikenal sejak tahun 1982.</li>
+                    <li>Promasan Greenland Nglimut yang menyediakan kolam renang, seluncuran, kolam ikan terapi, menara pandang, dan villa penginapan.</li>
+                    <li>Baon Pinus Forest Park yang dikenal sebagai tempat berkemah serta spot foto.</li>
+                    <li>Kebun Teh Medini yang cocok untuk jalan santai.</li>
+                    <li>Tiket masuk terjangkau, yaitu sekitar Rp10.000 sampai Rp20.000 per orang untuk pemandian air panas, dan Kebun Teh Medini mulai sekitar Rp10.000 per orang.</li>
+                </ul>
+            </div>
+
+            <div class="card" style="margin-top: 2rem;">
+                <h2>Tujuan Pelatihan Outbound</h2>
+                <ul class="styled-list">
+                    <li>Meningkatkan kerja sama tim dan komunikasi antaranggota.</li>
+                    <li>Melatih kepemimpinan, keberanian mengambil keputusan, dan tanggung jawab.</li>
+                    <li>Membangun kepercayaan diri dan rasa saling percaya.</li>
+                    <li>Memberi pengalaman belajar yang menyenangkan di alam terbuka.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- HALAMAN 2: PROGRAM & TNA -->
+        <section id="program" class="page-content">
+            <h1>Analisis Kebutuhan (TNA) & Program</h1>
+            <p>Kegiatan ini dirancang khusus untuk 40 peserta dan 4 panitia (total 44 orang) dengan durasi 2 hari 1 malam.</p>
+            
+            <div class="card">
+                <h2>Training Needs Analysis (TNA)</h2>
+                <p>TNA adalah proses diagnosis untuk mengidentifikasi kesenjangan secara objektif dan memastikan bahwa pelatihan adalah solusi yang tepat. Berikut adalah hasil analisis kebutuhan yang diterjemahkan menjadi modul permainan:</p>
+                
+                <table>
+                    <tr>
+                        <th>Kebutuhan & Tujuan</th>
+                        <th>Aktivitas Outbound</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Komunikasi:</strong> Peserta mampu menyampaikan dan memahami instruksi dengan jelas.</td>
+                        <td>Blind walk, Message relay (pesan berantai), Build the structure.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Kerja Sama:</strong> Seluruh anggota ikut berperan.</td>
+                        <td>Spider web, Pipa bocor, Menyeberangi sungai.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Kepercayaan:</strong> Peserta saling percaya.</td>
+                        <td>Trust fall, Blind walk.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Kepemimpinan:</strong> Peserta berani memimpin dan memutuskan.</td>
+                        <td>Jelajah hutan pinus (pos tantangan), Tali kelompok.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Percaya Diri:</strong> Peserta berani mencoba.</td>
+                        <td>Flying fox mini/ tantangan rintangan, presentasi hasil permainan.</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>Akomodasi & Transportasi</h3>
+                    <ul class="styled-list">
+                        <li>Peserta akan menggunakan tenda di area berkemah dekat hutan pinus.</li>
+                        <li>Tenda putra dan putri dipisah dan diberi jarak jelas.</li>
+                        <li>Transportasi utama menggunakan 1 bus sedang/besar (kapasitas 50-an kursi) pulang-pergi dari Semarang menuju Nglimut.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Manajemen Risiko Keselamatan</h3>
+                    <ul class="styled-list">
+                        <li><strong>Hujan deras:</strong> Siapkan jas hujan, aula cadangan, dan rundown alternatif.</li>
+                        <li><strong>Udara dingin:</strong> Wajib bawa jaket dan matras, serta sediakan minuman hangat.</li>
+                        <li><strong>Tanah longsor:</strong> Pilih area datar yang jauh dari lereng curam dan pantau cuaca.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- HALAMAN 3: JADWAL & BIAYA -->
+        <section id="jadwal" class="page-content">
+            <h1>Rundown Kegiatan & Anggaran Biaya</h1>
+
+            <div class="grid">
+                <div class="card">
+                    <h2>Rundown Hari 1 (Sabtu)</h2>
+                    <ul class="styled-list">
+                        <li>06.00: Kumpul di Semarang dan cek peserta.</li>
+                        <li>09.30: Ice breaking (perkenalan, tepuk, yel kelompok).</li>
+                        <li>10.30: Permainan 1 (Message relay) untuk melatih komunikasi.</li>
+                        <li>13.30: Permainan 2 (Spider web) untuk melatih kerja sama.</li>
+                        <li>15.00: Permainan 3 (Blind walk dan trust fall) untuk melatih kepercayaan.</li>
+                        <li>16.30: Mandi dan istirahat di pemandian air panas sebagai pemulihan.</li>
+                        <li>19.30: Api unggun, kesan pesan, dan penampilan kelompok.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h2>Rundown Hari 2 (Minggu)</h2>
+                    <ul class="styled-list">
+                        <li>05.00: Salat Subuh dan olahraga ringan.</li>
+                        <li>07.30: Jelajah hutan pinus dengan pos tantangan untuk melatih kepemimpinan dan pemecahan masalah.</li>
+                        <li>10.00: Permainan penutup (Build the structure) sebagai gabungan semua kemampuan.</li>
+                        <li>11.30: Refleksi dan evaluasi tentang apa yang dipelajari.</li>
+                        <li>13.30: Perjalanan pulang ke Semarang.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 2rem;">
+                <h2>Rencana Anggaran Biaya (RAB)</h2>
+                <p>Estimasi biaya disusun untuk total 44 orang (40 peserta, 4 fasilitator) selama 2 Hari 1 Malam.</p>
+                <table>
+                    <tr>
+                        <th>Komponen Kebutuhan</th>
+                        <th>Nominal</th>
+                    </tr>
+                    <tr>
+                        <td>Sewa area berkemah dan tenda (44 orang)</td>
+                        <td>Rp2.200.000</td>
+                    </tr>
+                    <tr>
+                        <td>Konsumsi (5x makan, 3x snack)</td>
+                        <td>Rp5.456.000</td>
+                    </tr>
+                    <tr>
+                        <td>Fasilitator dan alat outbound (4 orang)</td>
+                        <td>Rp2.500.000</td>
+                    </tr>
+                    <tr>
+                        <td>Transportasi bus pulang-pergi (1 bus)</td>
+                        <td>Rp2.500.000</td>
+                    </tr>
+                    <tr>
+                        <td><strong>TOTAL KESELURUHAN (Termasuk P3K, Tiket, Sewa Aula, & Dana Tak Terduga)</strong></td>
+                        <td><strong>Rp17.803.800</strong></td>
+                    </tr>
+                </table>
+                <h3 style="color: var(--primary);">Estimasi Biaya per Peserta: Rp405.000</h3>
+            </div>
+        </section>
+
+        <!-- HALAMAN 4: RESERVASI / PENGHUBUNG WA -->
+        <section id="reservasi" class="page-content">
+            <h1 style="text-align: center;">Jadwalkan Program Outbound</h1>
+            <p style="text-align: center; max-width: 600px; margin: 0 auto 2rem;">Silakan isi formulir di bawah ini. Anda akan langsung diarahkan ke WhatsApp kami untuk berkonsultasi lebih lanjut mengenai penjadwalan.</p>
+
+            <div class="card" style="max-width: 600px; margin: 0 auto;">
+                <form id="schedule-form">
+                    <div class="form-group">
+                        <label for="nama">Nama Instansi / Komunitas</label>
+                        <input type="text" id="nama" required placeholder="Masukkan nama grup Anda">
+                    </div>
+                    <div class="form-group">
+                        <label for="tanggal">Rencana Tanggal Pelaksanaan (2H1M)</label>
+                        <input type="date" id="tanggal" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="peserta">Jumlah Peserta Estimasi</label>
+                        <input type="number" id="peserta" required placeholder="Contoh: 44">
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;">Lanjutkan ke WhatsApp</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Chatbot Virtual Assistant -->
+    <button class="chatbot-btn" id="chatbot-toggle">💬</button>
+    
+    <div class="chatbot-window" id="chatbot-window">
+        <div class="chat-header">
+            <div>
+                <div style="font-size: 1rem;">Julis AI Assistant</div>
+                <div style="font-size: 0.75rem; font-weight: normal; opacity: 0.8;">Tanya Jawab Outbound</div>
+            </div>
+            <span id="close-chat">✕</span>
+        </div>
+        <div class="chat-body" id="chat-body">
+            <div class="chat-msg chat-bot">Halo! Saya asisten virtual Julis Adventure. Ada yang ingin ditanyakan seputar Nglimut, permainan, atau rincian biaya program 2H1M?</div>
+        </div>
+        <div class="chat-footer">
+            <input type="text" id="chat-input" placeholder="Ketik pertanyaan...">
+            <button id="send-chat">➤</button>
+        </div>
+    </div>
+
+    <script>
+        // Logika Navigasi Tab (Multi-page Simulation)
+        const navButtons = document.querySelectorAll('.nav-btn');
+        const pages = document.querySelectorAll('.page-content');
+
+        navButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                navButtons.forEach(b => b.classList.remove('active'));
+                pages.forEach(p => p.classList.remove('active'));
+                
+                btn.classList.add('active');
+                document.getElementById(btn.getAttribute('data-target')).classList.add('active');
+                
+                window.scrollTo(0, 0);
+            });
+        });
+
+        // Logika Auto-Slider (Bergeser otomatis setiap 3 detik)
+        const sliderElement = document.getElementById('auto-slider');
+        let currentSlide = 0;
+        const totalSlides = 3; // Sesuaikan dengan jumlah foto di HTML
+
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            // Geser sebesar 33.333% ke kiri untuk setiap slide
+            sliderElement.style.transform = `translateX(-${currentSlide * 33.3333}%)`;
+        }, 3000); 
+
+        // Logika Mode Gelap/Terang
+        const themeBtn = document.getElementById('theme-btn');
+        const html = document.documentElement;
+
+        themeBtn.addEventListener('click', () => {
+            if (html.getAttribute('data-theme') === 'light') {
+                html.setAttribute('data-theme', 'dark');
+                themeBtn.textContent = '☀️';
+            } else {
+                html.setAttribute('data-theme', 'light');
+                themeBtn.textContent = '🌙';
+            }
+        });
+
+        // Redirect Form ke WhatsApp
+        document.getElementById('schedule-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const nama = document.getElementById('nama').value;
+            const tanggal = document.getElementById('tanggal').value;
+            const peserta = document.getElementById('peserta').value;
+
+            const textWa = `Halo Julis Adventure! 👋\n\nSaya tertarik menjadwalkan Program Outbound & Team Building. Berikut detail awal kami:\n\n🏢 *Instansi/Organisasi:* ${nama}\n📅 *Rencana Tanggal:* ${tanggal}\n👥 *Estimasi Peserta:* ${peserta} Orang\n\nMohon informasi ketersediaannya. Terima kasih!`;
+            
+            const encodedText = encodeURIComponent(textWa);
+            window.open(`https://wa.me/6282223319392?text=${encodedText}`, '_blank');
+        });
+
+        // Logika Chatbot
+        const chatToggle = document.getElementById('chatbot-toggle');
+        const chatWindow = document.getElementById('chatbot-window');
+        const closeChat = document.getElementById('close-chat');
+        const chatBody = document.getElementById('chat-body');
+        const chatInput = document.getElementById('chat-input');
+        const sendChat = document.getElementById('send-chat');
+
+        chatToggle.addEventListener('click', () => chatWindow.classList.add('active'));
+        closeChat.addEventListener('click', () => chatWindow.classList.remove('active'));
+
+        function addMessage(text, sender) {
+            const msgDiv = document.createElement('div');
+            msgDiv.classList.add('chat-msg', sender === 'user' ? 'chat-user' : 'chat-bot');
+            msgDiv.textContent = text;
+            chatBody.appendChild(msgDiv);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        function handleChat() {
+            const text = chatInput.value.trim();
+            if (!text) return;
+            addMessage(text, 'user');
+            chatInput.value = '';
+
+            setTimeout(() => {
+                const lowerText = text.toLowerCase();
+                let reply = "Terima kasih atas pertanyaannya. Silakan isi form di menu 'Reservasi' agar kami bisa menghubungi Anda melalui WhatsApp untuk detailnya.";
+                
+                if (lowerText.includes('harga') || lowerText.includes('biaya') || lowerText.includes('dana')) {
+                    reply = "Biaya per peserta sekitar Rp405.000. Total anggaran untuk 44 orang adalah Rp17.803.800.";
+                } else if (lowerText.includes('lokasi') || lowerText.includes('tempat') || lowerText.includes('dimana')) {
+                    reply = "Lokasinya di Kawasan Wisata Nglimut, Desa Gonoharjo, Kec. Limbangan, Kab. Kendal dengan jarak sekitar 30 km dari Semarang.";
+                } else if (lowerText.includes('permainan') || lowerText.includes('kegiatan')) {
+                    reply = "Kami menyediakan permainan seperti Blind walk, Message relay, Spider web, dan Jelajah hutan pinus untuk melatih komunikasi hingga kepemimpinan.";
+                } else if (lowerText.includes('fasilitas') || lowerText.includes('tidur')) {
+                    reply = "Peserta akan berkemah di tenda dekat hutan pinus, dan tersedia pemandian air panas serta kolam renang.";
+                }
+
+                addMessage(reply, 'bot');
+            }, 800);
+        }
+
+        sendChat.addEventListener('click', handleChat);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleChat();
+        });
+    </script>
+</body>
+</html>
